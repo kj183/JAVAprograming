@@ -1,0 +1,71 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerAndStopwatch {
+    private static int seconds = 0;
+    private static Timer timer = new Timer();
+
+    public static void main(String[] args) {
+        // Timer Example
+        startTimer(5); // Start timer for 5 seconds
+        sleep(7000); // Sleep for 7 seconds to allow the timer to finish
+
+        // Stopwatch Example
+        startStopwatch();
+        sleep(3000); // Sleep for 3 seconds to simulate some activity
+        stopStopwatch(); // Stop the stopwatch
+
+        resetStopwatch(); // Reset the stopwatch
+        startStopwatch();
+        sleep(2000);
+        stopStopwatch();
+
+        // Print elapsed time
+        System.out.println("Elapsed time: " + getElapsedTime() + " milliseconds");
+    }
+
+    // Timer
+    public static void startTimer(int seconds) {
+        timer.schedule(new TimerTask() {
+            public void run() {
+                System.out.println("Timer finished!");
+                timer.cancel();
+            }
+        }, seconds * 1000);
+        System.out.println("Timer started for " + seconds + " seconds.");
+    }
+
+    // Stopwatch
+    public static void startStopwatch() {
+        seconds = 0;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                seconds++;
+                System.out.println("Stopwatch: " + seconds + " seconds");
+            }
+        }, 1000, 1000);
+        System.out.println("Stopwatch started.");
+    }
+
+    public static void stopStopwatch() {
+        timer.cancel();
+        System.out.println("Stopwatch stopped. Elapsed time: " + seconds + " seconds");
+    }
+
+    public static void resetStopwatch() {
+        timer.cancel();
+        System.out.println("Stopwatch reset.");
+    }
+
+    public static int getElapsedTime() {
+        return seconds * 1000;
+    }
+
+    public static void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
